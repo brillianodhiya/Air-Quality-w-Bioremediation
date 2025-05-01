@@ -20,6 +20,15 @@ const center = {
   lng: 106.8456,
 };
 
+// Add API key check
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+
+if (!GOOGLE_MAPS_API_KEY) {
+  console.error(
+    "Google Maps API key is missing. Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your environment variables."
+  );
+}
+
 interface AddressComponent {
   long_name: string;
   short_name: string;
@@ -108,10 +117,7 @@ export default function MapPage() {
 
   return (
     <div className="w-full h-screen relative">
-      <LoadScript
-        googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-        libraries={["places"]}
-      >
+      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
